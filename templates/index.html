@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI SaaS</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+        }
+
+        .box {
+            margin-top: 50px;
+            background: #1e293b;
+            padding: 20px;
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+            width: 80%;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            background: #38bdf8;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="box">
+
+<h2>Smart AI SaaS</h2>
+
+<h3>Register</h3>
+<input id="ruser" placeholder="username">
+<input id="rpass" placeholder="password">
+<button onclick="register()">Register</button>
+
+<h3>Login</h3>
+<input id="luser" placeholder="username">
+<input id="lpass" placeholder="password">
+<button onclick="login()">Login</button>
+
+<h3>AI Predict</h3>
+<input id="file" placeholder="file name">
+<button onclick="predict()">Predict</button>
+
+<p id="out"></p>
+
+</div>
+
+<script>
+function register(){
+    fetch("/register",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            username:document.getElementById("ruser").value,
+            password:document.getElementById("rpass").value
+        })
+    }).then(r=>r.json()).then(d=>alert(d.message))
+}
+
+function login(){
+    fetch("/login",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            username:document.getElementById("luser").value,
+            password:document.getElementById("lpass").value
+        })
+    }).then(r=>r.json()).then(d=>alert(d.message))
+}
+
+function predict(){
+    fetch("/predict",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            file_name:document.getElementById("file").value
+        })
+    }).then(r=>r.json()).then(d=>{
+        document.getElementById("out").innerText =
+        "Category: " + d.category;
+    })
+}
+</script>
+
+</body>
+</html>
